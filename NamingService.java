@@ -1,4 +1,8 @@
 
+import Commons.Address;
+import RequestReply.ByteStreamTransformer;
+import RequestReply.Replyer;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.io.BufferedReader;
@@ -8,7 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.*;
-
+import Registry.Registry;
 public class NamingService {
     public static final int PORT = 8080;
     public static final Map<String, Object> nameToAddressMap = new HashMap<>();

@@ -3,7 +3,9 @@ import RequestReply.*;
 import MessageMarshaller.*;
 import Registry.*;
 import Commons.Address;
- 
+
+import java.rmi.RemoteException;
+
 
 class ServerTransformer implements ByteStreamTransformer
 {
@@ -41,8 +43,7 @@ class MessageServer
 
 public class ServerWithRR
 {
-	public static void main(String args[])
-	{
+	public static void main(String args[]) throws RemoteException {
 		new Configuration();
 
 		StockMarketImpl stockMarketImpl = new StockMarketImpl();

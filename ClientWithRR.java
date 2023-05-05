@@ -3,11 +3,15 @@ import MessageMarshaller.*;
 import Registry.*;
 import Commons.Address;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
 
 public class ClientWithRR
 {
-	public static void main(String args[])
-	{
+	public static void main(String args[]) throws RemoteException, MalformedURLException, NotBoundException {
 		new Configuration();
 
         Address dest=Registry.instance().get("Server");
