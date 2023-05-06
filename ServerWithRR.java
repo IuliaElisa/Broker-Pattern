@@ -43,23 +43,41 @@ class MessageServer
 
 public class ServerWithRR
 {
-	public static void main(String args[]) throws RemoteException {
+	public static void main(String args[])   {
 		new Configuration();
 
-		StockMarketImpl stockMarketImpl = new StockMarketImpl();
-		NamingService.rebind("Service", stockMarketImpl);
-		System.out.println("StockMarketServer main registered NASDAQ object");
+
+		Address dest=Registry.instance().get("NamingService");
+
+
+		Message msg= new Message("Server","I want to connect :(");
+
+		System.out.println("I want to connect ^^");
+		Requestor r = new Requestor("Server");
+
+		Marshaller m = new Marshaller();
+
+		byte[] bytes = m.marshal(msg);
+
+		bytes = r.deliver_and_wait_feedback(dest, bytes);
+
+		Message answer = m.unmarshal(bytes);
+
+		System.out.println("Server received messageee "+answer.data+" from "+answer.sender);
+
+		//StockMarketImpl stockMarketImpl = new StockMarketImpl();
+		NamingService.rebind("Service", Registry.instance().get("Server"));
+		System.out.println("StockMarketServer main registered to NAMING SERVICE");
 
 		ByteStreamTransformer transformer = new ServerTransformer(new MessageServer());
 		
-		Address myAddr = Registry.instance().get("Server");
+		Address myAddr = NamingService.lookup("Server");
 		
-		Replyer r = new Replyer("Server", myAddr);
+		Replyer r2 = new Replyer("Server", myAddr);
 
 		while (true) {
-		  r.receive_transform_and_send_feedback(transformer);
+		  r2.receive_transform_and_send_feedback(transformer);
 		}
-		
 
 	}
 

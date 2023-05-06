@@ -13,9 +13,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.*;
 import Registry.Registry;
+import Registry.Entry;
+
 public class NamingService {
     public static final int PORT = 8080;
-    public static final Map<String, Object> nameToAddressMap = new HashMap<>();
+    //public static final Map<String, Object> nameToAddressMap = new HashMap<>();
 
     private static NamingService _instance = null;
 
@@ -30,26 +32,13 @@ public class NamingService {
         return _instance;
     }
 
-    public static Object lookup(String name) {
+    public static Address lookup(String name) {
 
-        System.out.println("naa "+nameToAddressMap);
-        return nameToAddressMap.get(name);
+        return Registry.instance().get(name);
     }
-    public static void rebind(String name, Object object) {
+    public static void rebind(String name, Entry object) {
+        Registry.instance().put(name, object);
 
-        nameToAddressMap.put(name, object);
-
-        for( Map.Entry<String, Object> entry : nameToAddressMap.entrySet() ){
-            System.out.println( entry.getKey() + " = " + entry.getValue() );
-        }
-
-        //System.out.println("naa "+nameToAddressMap);
-
-    }
-
-    public static void unregisterServer(String name) {
-
-        nameToAddressMap.remove(name);
     }
 
 
