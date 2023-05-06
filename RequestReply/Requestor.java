@@ -30,11 +30,12 @@ System.out.println("Requestor: Socket"+s);
 			oStr.write(data);
 			oStr.flush();
 			iStr = s.getInputStream();
+
 			val = iStr.read();
 			buffer = new byte[val];
 			iStr.read(buffer);
 			iStr.close();
-                        oStr.close();
+			oStr.close();
 			s.close();
 			}
 		catch (IOException e) { 

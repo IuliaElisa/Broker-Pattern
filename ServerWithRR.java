@@ -3,6 +3,11 @@ import MessageMarshaller.*;
 import Registry.*;
 import Commons.Address;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 
 public class ServerWithRR
 {
@@ -35,21 +40,21 @@ try {
 	Replyer r2 = new Replyer("Server", myAddr);
 
 	while (true) {
+
+
 		byte[] req = r2.receive_transform_and_send_feedback(transformer);
 
 		Message answer2 = m.unmarshal(req);
 
 		if(answer2.data.equals("get_price, ABC SRL")){
 			StockMarketImpl stockMarket = new StockMarketImpl();
-			stockMarket.get_price("ABC SRL");
+			float price = stockMarket.get_price(answer2.data);
+
 		}
 	}
-
 }
 catch (Exception e) {
 	System.out.println("Exception in SERVER RR!");
 }
-
 	}
-
 }

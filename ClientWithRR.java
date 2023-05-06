@@ -11,13 +11,7 @@ public class ClientWithRR
 
 		Address dest = NamingService.lookup("Server");
 
-		//StockMarket market =  (StockMarket) NamingService.lookup("Server");
-
-		//float price=market.get_price("ABC SRL");
-
-		//System.out.println("Price is "+price);
-
-	Message msg= new Message("Client","get_price, ABC SRL");
+		Message msg= new Message("Client","get_price, ABC SRL");
 
 		Requestor r = new Requestor("Client");
 

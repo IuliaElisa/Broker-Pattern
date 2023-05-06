@@ -44,12 +44,11 @@ System.out.println("Replyer accept: Socket"+s);
 	
 			byte[] data = t.transform(buffer);
 
-
 			oStr = s.getOutputStream();
 			oStr.write(data);
 			oStr.flush();
 			oStr.close();
-                        iStr.close();
+			iStr.close();
 			s.close();
 
 			return buffer;
