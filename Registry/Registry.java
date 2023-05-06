@@ -4,7 +4,7 @@ import java.util.Hashtable;
 
 public class Registry
 {
-	private Hashtable hTable = new Hashtable();
+	private final Hashtable hTable = new Hashtable();
 	private static Registry _instance = null;
 
 	private Registry() { }
@@ -22,6 +22,7 @@ public class Registry
 	}
 	public Entry get(String aKey)
 	{
+		System.out.println("hash (((((((( " + hTable);
 		return (Entry)hTable.get(aKey);
 	}
 }

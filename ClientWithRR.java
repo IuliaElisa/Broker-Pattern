@@ -1,18 +1,18 @@
 import RequestReply.*;
 import MessageMarshaller.*;
-import Registry.*;
 import Commons.Address;
-
-import java.net.MalformedURLException;
 import java.rmi.RemoteException;
-
+import Registry.*;
 
 public class ClientWithRR
 {
 	public static void main(String args[]) throws RemoteException {
+
+
 		new Configuration();
 
-        Address dest=Registry.instance().get("Server");
+        //Address dest=Registry.instance().get("Server");
+		Address dest= NamingService.lookup("Server");
 
 //		StockMarket market =  (StockMarket) NamingService.lookup("Server");
 //
@@ -23,13 +23,13 @@ public class ClientWithRR
 	Message msg= new Message("Client","How are you");
 
 		Requestor r = new Requestor("Client");
-		
+
 		Marshaller m = new Marshaller();
-			
+
 		byte[] bytes = m.marshal(msg);
 
 		bytes = r.deliver_and_wait_feedback(dest, bytes);
-		
+
 		Message answer = m.unmarshal(bytes);
 
 		System.out.println("Client received message "+answer.data+" from "+answer.sender);
