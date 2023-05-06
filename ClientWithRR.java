@@ -2,25 +2,22 @@ import RequestReply.*;
 import MessageMarshaller.*;
 import Commons.Address;
 import java.rmi.RemoteException;
-import Registry.*;
 
 public class ClientWithRR
 {
 	public static void main(String args[]) throws RemoteException {
 
-
 		new Configuration();
 
-        //Address dest=Registry.instance().get("Server");
-		Address dest= NamingService.lookup("Server");
+		Address dest = NamingService.lookup("Server");
 
-//		StockMarket market =  (StockMarket) NamingService.lookup("Server");
-//
-//		float price=market.get_price("ABC SRL");
-//
-//		System.out.println("Price is "+price);
+		//StockMarket market =  (StockMarket) NamingService.lookup("Server");
 
-	Message msg= new Message("Client","How are you");
+		//float price=market.get_price("ABC SRL");
+
+		//System.out.println("Price is "+price);
+
+	Message msg= new Message("Client","get_price, ABC SRL");
 
 		Requestor r = new Requestor("Client");
 

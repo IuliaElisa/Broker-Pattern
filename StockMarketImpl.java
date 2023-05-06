@@ -1,12 +1,9 @@
 
-import java.rmi.*;
-import java.rmi.server.UnicastRemoteObject;
 
 public class StockMarketImpl 
-        extends UnicastRemoteObject
         implements StockMarket {
 
-    public StockMarketImpl() throws RemoteException {}
+    public StockMarketImpl()   {}
 
     public float get_price(String company) {
          float price=12345;

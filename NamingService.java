@@ -1,15 +1,17 @@
-
 import Commons.Address;
+import Registry.*;
 import RequestReply.ByteStreamTransformer;
 import RequestReply.Replyer;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import Registry.*;
-
+import java.util.Hashtable;
 
 public class NamingService {
     public static final int PORT = 8080;
+
+    private final Hashtable hTable = new Hashtable();
+
     private NamingService() {}
 
     public static Address lookup(String name) {
@@ -17,12 +19,10 @@ public class NamingService {
     }
     public static void rebind(String name, Entry object) {
         Registry.instance().put(name, object);
-
     }
     public static void main(String[] args) throws IOException {
 
-        new Configuration();
-
+         new Configuration();
 
         ServerSocket serverSocket = new ServerSocket(PORT, 0, InetAddress.getLocalHost());
         System.out.println("\nNamingService started at: " + serverSocket.getInetAddress().getHostAddress()

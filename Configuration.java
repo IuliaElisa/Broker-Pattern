@@ -1,16 +1,14 @@
-package Registry;
-
-
+import Registry.*;
 public class Configuration
 {
-	public Configuration()
+	public Configuration( )
 	{
 
 		Entry entryNaming = new Entry("127.0.0.1", 1110);
-		Registry.instance().put("NamingService", entryNaming);
+		NamingService.rebind("NamingService", entryNaming);
 
 		Entry entrys = new Entry("127.0.0.1", 1111);
-		Registry.instance().put("Server", entrys);
+		NamingService.rebind("Server", entrys);
 //
 //		Entry entryc1 = new Entry("127.0.0.1", 1112);
 //		Registry.instance().put("Client1", entryc1);
