@@ -10,8 +10,6 @@ import java.util.Hashtable;
 public class NamingService {
     public static final int PORT = 8080;
 
-    private final Hashtable hTable = new Hashtable();
-
     private NamingService() {}
 
     public static Address lookup(String name) {

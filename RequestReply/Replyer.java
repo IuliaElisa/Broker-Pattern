@@ -14,17 +14,19 @@ public class Replyer
 	private InputStream iStr;
 	private OutputStream oStr;
 	private String myName;
-        private Address myAddr;
+	private Address myAddr;
 	
 	public Replyer(String theName, Address theAddr) {
               myName = theName; 
-              myAddr=theAddr;
+              myAddr = theAddr;
+			  System.out.println("port "+myAddr.port());
               try {
-              	srvS = new ServerSocket(myAddr.port(), 1000);
-System.out.println("Replyer Serversocket:"+srvS);
-	      } catch (Exception e) { 
+              	srvS = new ServerSocket(myAddr.port());
+				System.out.println("Replyer Serversocket:"+srvS);
+			  }
+			  catch (Exception e) {
                  System.out.println("Error opening server socket");
-		}
+			  }
 	}
 
 

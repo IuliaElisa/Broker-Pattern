@@ -11,7 +11,7 @@ public class Client
 
 		Address dest = NamingService.lookup("ClientProxy");
 
-		Message msg = new Message("Client", "Server, get_price, ABC SRL");
+		Message msg = new Message("Client", "InfoServer,get_price ,ABC SRL");
 
 		Requestor r = new Requestor("Client");
 

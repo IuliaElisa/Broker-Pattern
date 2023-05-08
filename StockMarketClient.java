@@ -3,7 +3,7 @@ import java.rmi.*;
 public class StockMarketClient  {
   public static void main(String[] args) {
   try {
-      StockMarket market=  (StockMarket) Naming.lookup("rmi://localhost/NASDAQ");
+      StockMarket market =  (StockMarket) Naming.lookup("rmi://localhost/NASDAQ");
       
       float price=market.get_price("ABC SRL");
       

@@ -26,6 +26,7 @@ try {
 
 	System.out.println("ServerProxy received message " + answer.data + " from " + answer.sender);
 
+
 	ByteStreamTransformer transformer = new ServerTransformer(new MessageServer());
 
 	Address myAddr = NamingService.lookup("ServerProxy");
@@ -35,12 +36,6 @@ try {
 	while (true) {
 
 		r2.receive_transform_and_send_feedback("ServerProxy", transformer);
-//
-//		Message answer2 = m.unmarshal(req);
-//
-//		if(answer2.data.equals("get_price, ABC SRL")){
-//			float price = StockMarketServer.get_price(answer2.data);
-//		}
 	}
 }
 catch (Exception e) {

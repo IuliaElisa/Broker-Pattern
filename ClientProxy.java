@@ -36,29 +36,30 @@ public class ClientProxy
             while (true) {
                 bytes = r2.receive_transform_and_send_feedback("ClientProxy", transformer);
                 String message_from_client = m.unmarshal(bytes).data;
-                System.out.println("receeeee "+m.unmarshal(bytes).data);
-//                String[] splits = message_from_client.split(",");
-//                if(splits.length > 3){
-//                    String serverName = splits[0];
-//                    String operation = splits[1];
-//
-//                    dest = NamingService.lookup(serverName);
-//
-//                    msg = new Message("ClientProxy", operation);
-//
-//                    r = new Requestor("ClientProxy");
-//
-//                    bytes = m.marshal(msg);
-//
-//                    bytes = r.deliver_and_wait_feedback(dest, bytes);
-//
-//                    answer = m.unmarshal(bytes);
-//
-//                }
+                System.out.println("receeeee " + message_from_client);
+                String[] splits = message_from_client.split(",");
+
+                if(splits.length > 1){
+                    String serverName = splits[0];
+                    System.out.println("serverName "+serverName);
+
+                    dest = NamingService.lookup(serverName);
+
+                    msg = new Message("ClientProxy", message_from_client);
+
+                    r = new Requestor("ClientProxy");
+
+                    bytes = m.marshal(msg);
+
+                    bytes = r.deliver_and_wait_feedback(dest, bytes);
+
+                    answer = m.unmarshal(bytes);
+                    System.out.println("In if:::: "+ answer.data);
+                }
             }
         }
         catch (Exception e) {
-            System.out.println("Exception in ServerProxy!");
+            System.out.println("Exception in ClientProxy!");
         }
     }
 
