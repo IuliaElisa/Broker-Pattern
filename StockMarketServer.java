@@ -1,13 +1,22 @@
 import java.rmi.*;
 
 public class StockMarketServer  {
-  public static void main(String[] args) {
-   System.out.println("StockMarketServer main started");
-   try {
-     StockMarketImpl stockMarketImpl = new StockMarketImpl();
-     Naming.rebind("NASDAQ", stockMarketImpl );
-     System.out.println("StockMarketServer main registered NASDAQ object");
 
-     } catch (Exception e) {} 
+    private String company;
+    public StockMarketServer( ){
+        this.company = "ABC SRL";
+    }
+
+    public static float get_price(String company) {
+        float price=12345;
+        System.out.println("get_price method executing." );
+        return price;
+    }
+  public static void main(String[] args) {
+   try {
+       get_price("ABC SRL");
+     } catch (Exception e) {
+       System.out.println("Exception in StockMArketServer");
+   }
   }
 }

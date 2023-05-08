@@ -22,11 +22,11 @@ public class NamingService {
     }
     public static void main(String[] args) throws IOException {
 
-         new Configuration();
-
-        ServerSocket serverSocket = new ServerSocket(PORT, 0, InetAddress.getLocalHost());
-        System.out.println("\nNamingService started at: " + serverSocket.getInetAddress().getHostAddress()
-                + ":" + PORT);
+        new Configuration();
+//
+//        ServerSocket serverSocket = new ServerSocket(PORT, 0, InetAddress.getLocalHost());
+//        System.out.println("\nNamingService started at: " + serverSocket.getInetAddress().getHostAddress()
+//                + ":" + PORT);
 
 
         ByteStreamTransformer transformer = new ServerTransformer(new MessageServer());
@@ -36,7 +36,7 @@ public class NamingService {
         Replyer r = new Replyer("NamingService", myAddr);
 
         while (true) {
-            r.receive_transform_and_send_feedback(transformer);
+            r.receive_transform_and_send_feedback("NamingService", transformer);
         }
     }
 

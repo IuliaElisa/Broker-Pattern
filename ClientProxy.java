@@ -5,31 +5,17 @@ import RequestReply.ByteStreamTransformer;
 import RequestReply.Replyer;
 import RequestReply.Requestor;
 
-
-import RequestReply.*;
-        import MessageMarshaller.*;
-        import Registry.*;
-        import Commons.Address;
-
-        import java.io.InputStream;
-        import java.io.OutputStream;
-        import java.net.ServerSocket;
-        import java.net.Socket;
-
-
 public class ClientProxy
 {
-    public static void main(String args[])   {
-
+    public static void main(String args[]){
         try {
             new Configuration();
 
-            System.out.println("\nClientProxy main registered to NAMING SERVICE");
             Address dest = NamingService.lookup("NamingService");
 
-            Message msg = new Message("ClientProxy", "I want to connect:(");
+            Message msg = new Message("ClientProxy", "I want to connect :(");
 
-            Requestor r = new Requestor("Server");
+            Requestor r = new Requestor("ClientProxy");
 
             Marshaller m = new Marshaller();
 
@@ -48,13 +34,35 @@ public class ClientProxy
             Replyer r2 = new Replyer("ClientProxy", myAddr);
 
             while (true) {
-
-                 r2.receive_transform_and_send_feedback(transformer);
-
+                bytes = r2.receive_transform_and_send_feedback("ClientProxy", transformer);
+                String message_from_client = m.unmarshal(bytes).data;
+                System.out.println("receeeee "+m.unmarshal(bytes).data);
+//                String[] splits = message_from_client.split(",");
+//                if(splits.length > 3){
+//                    String serverName = splits[0];
+//                    String operation = splits[1];
+//
+//                    dest = NamingService.lookup(serverName);
+//
+//                    msg = new Message("ClientProxy", operation);
+//
+//                    r = new Requestor("ClientProxy");
+//
+//                    bytes = m.marshal(msg);
+//
+//                    bytes = r.deliver_and_wait_feedback(dest, bytes);
+//
+//                    answer = m.unmarshal(bytes);
+//
+//                }
             }
         }
         catch (Exception e) {
-            System.out.println("Exception in SERVER RR!");
+            System.out.println("Exception in ServerProxy!");
         }
     }
+
 }
+
+
+

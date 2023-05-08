@@ -9,15 +9,14 @@ public class ServerTransformer implements ByteStreamTransformer {
         originalServer = s;
     }
 
-    public byte[] transform(byte[] in) {
+    public byte[] transform(byte[] in, String sender, String receiver) {
         Message msg;
         Marshaller m = new Marshaller();
         msg = m.unmarshal(in);
 
-        Message answer = originalServer.get_answer(msg);
+        Message answer = originalServer.get_answer(msg, sender, receiver);
 
         byte[] bytes = m.marshal(answer);
         return bytes;
-
     }
 }

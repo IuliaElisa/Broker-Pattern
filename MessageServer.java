@@ -1,10 +1,11 @@
 import MessageMarshaller.Message;
 
 public class MessageServer {
-    public Message get_answer(Message msg) {
-        System.out.println("Server received " + msg.data + " from " + msg.sender);
+    public Message get_answer(Message msg, String sender, String receiver) {
 
-        Message answer = new Message("Server", msg.data);
+        System.out.println(receiver + " received " + msg.data + " from " + msg.sender);
+
+        Message answer = new Message(sender, msg.data);
         return answer;
     }
 }

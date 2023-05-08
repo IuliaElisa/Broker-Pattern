@@ -28,7 +28,7 @@ System.out.println("Replyer Serversocket:"+srvS);
 	}
 
 
-	public byte[] receive_transform_and_send_feedback(ByteStreamTransformer t)
+	public byte[] receive_transform_and_send_feedback(String sender, ByteStreamTransformer t)
 	{
 		int val;
 		byte buffer[] = null;
@@ -40,9 +40,7 @@ System.out.println("Replyer accept: Socket"+s);
 			val = iStr.read();
 			buffer = new byte[val];
 			iStr.read(buffer);
-			System.out.println();
-	
-			byte[] data = t.transform(buffer);
+			byte[] data = t.transform(buffer, myName, sender);
 
 			oStr = s.getOutputStream();
 			oStr.write(data);
@@ -50,14 +48,12 @@ System.out.println("Replyer accept: Socket"+s);
 			oStr.close();
 			iStr.close();
 			s.close();
+			return data;
 
-			return buffer;
-			
 		}
 		catch (IOException e) { 
                       System.out.println("IOException in receive_transform_and_feedback"); }
 		return null;
-		
 	}
 
 	protected void finalize() throws Throwable {
