@@ -4,6 +4,7 @@ import Commons.Address;
 import MessageMarshaller.Marshaller;
 import MessageMarshaller.Message;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.*;
 import java.io.*;
 
@@ -19,7 +20,6 @@ public class Replyer
 	public Replyer(String theName, Address theAddr) {
               myName = theName; 
               myAddr = theAddr;
-			  System.out.println("port "+myAddr.port());
               try {
               	srvS = new ServerSocket(myAddr.port());
 				System.out.println("Replyer Serversocket:"+srvS);
@@ -42,6 +42,7 @@ System.out.println("Replyer accept: Socket"+s);
 			val = iStr.read();
 			buffer = new byte[val];
 			iStr.read(buffer);
+			System.out.println("in replyer: myName " + myName + "  sender: "+sender);
 			byte[] data = t.transform(buffer, myName, sender);
 
 			oStr = s.getOutputStream();
@@ -53,8 +54,13 @@ System.out.println("Replyer accept: Socket"+s);
 			return data;
 
 		}
-		catch (IOException e) { 
-                      System.out.println("IOException in receive_transform_and_feedback"); }
+		catch (IOException | InvocationTargetException | IllegalAccessException e) {
+                      System.out.println("IOException in receive_transform_and_feedback"); } catch (
+				NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		} catch (ClassNotFoundException | InstantiationException e) {
+			throw new RuntimeException(e);
+		}
 		return null;
 	}
 

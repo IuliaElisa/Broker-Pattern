@@ -3,9 +3,9 @@ import java.rmi.*;
 public class StockMarketClient  {
   public static void main(String[] args) {
   try {
-      StockMarket market =  (StockMarket) Naming.lookup("rmi://localhost/NASDAQ");
+      InfoServerOperations market =  (InfoServerOperations) Naming.lookup("rmi://localhost/NASDAQ");
       
-      float price=market.get_price("ABC SRL");
+      float price=market.get_temp("ABC SRL");
       
       System.out.println("Price is "+price); 
       } 

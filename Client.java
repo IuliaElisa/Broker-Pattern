@@ -1,30 +1,12 @@
-import Commons.Address;
-import MessageMarshaller.Marshaller;
-import MessageMarshaller.Message;
-import RequestReply.Requestor;
-
 
 public class Client
 {
+
 	public static void main(String args[])   {
 		new Configuration();
 
-		Address dest = NamingService.lookup("ClientProxy");
-
-		Message msg = new Message("Client", "InfoServer,get_price ,ABC SRL");
-
-		Requestor r = new Requestor("Client");
-
-		Marshaller m = new Marshaller();
-
-		byte[] bytes = m.marshal(msg);
-
-		bytes = r.deliver_and_wait_feedback(dest, bytes);
-
-		Message answer = m.unmarshal(bytes);
-
-		System.out.println("Client received message " + answer.data + " from " + answer.sender);
-
+		String result = ClientProxy.execute("MathServer", "do_add,9,2 ");
+		System.out.println("Response: "+ result);
 
 	}
 

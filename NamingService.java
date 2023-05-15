@@ -5,29 +5,23 @@ import RequestReply.Replyer;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
-import java.util.Hashtable;
 
 public class NamingService {
     public static final int PORT = 8080;
 
     private NamingService() {}
-
     public static Address lookup(String name) {
         return Registry.instance().get(name);
     }
-    public static void rebind(String name, Entry object) {
-        Registry.instance().put(name, object);
+
+    public static void rebind(String name, String dest, int port ) {
+        Entry entry = new Entry(dest, port);
+        Registry.instance().put(name, entry);
     }
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException {
 
         new Configuration();
-//
-//        ServerSocket serverSocket = new ServerSocket(PORT, 0, InetAddress.getLocalHost());
-//        System.out.println("\nNamingService started at: " + serverSocket.getInetAddress().getHostAddress()
-//                + ":" + PORT);
-
-
-        ByteStreamTransformer transformer = new ServerTransformer(new MessageServer());
+        ByteStreamTransformer transformer = new ServerTransformer( new MessageServer(), "NamingService, nothing", null);
 
         Address myAddr = NamingService.lookup("NamingService");
 

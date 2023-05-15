@@ -1,41 +1,37 @@
+import MessageMarshaller.Marshaller;
+import MessageMarshaller.Message;
 import RequestReply.*;
-import MessageMarshaller.*;
 import Commons.Address;
 
 
 public class ServerProxy
 {
-	public static void main(String args[])   {
+	public static void execute(String serverName, Class<?> implem)   {
 
 try {
 	new Configuration();
 
-	Address dest = NamingService.lookup("NamingService");
+//	do that !!
+//	Address dest = NamingService.lookup("NamingService");
+//	Message msg = new Message("ServerProxy","ServerProxy" + ":"+"connect");
+//	Requestor r = new Requestor("ServerProxy");
+//	Marshaller m = new Marshaller();
+//	byte[] bytes = m.marshal(msg);
+//	bytes = r.deliver_and_wait_feedback(dest, bytes);
+//
+//	Message answer = m.unmarshal(bytes);
+//	System.out.println("ServerProxy received message " + answer.data + " from " + answer.sender);
 
-	Message msg = new Message("ServerProxy", "I want to connect :(");
+	//ByteStreamTransformer transformer = new ServerTransformer(new MessageServer());
+	ByteStreamTransformer transformer = new ServerTransformer(new MessageServer(), "NamingService", implem);
 
-	Requestor r = new Requestor("ServerProxy");
+	Address myAddr = NamingService.lookup(serverName);
 
-	Marshaller m = new Marshaller();
-
-	byte[] bytes = m.marshal(msg);
-
-	bytes = r.deliver_and_wait_feedback(dest, bytes);
-
-	Message answer = m.unmarshal(bytes);
-
-	System.out.println("ServerProxy received message " + answer.data + " from " + answer.sender);
-
-
-	ByteStreamTransformer transformer = new ServerTransformer(new MessageServer());
-
-	Address myAddr = NamingService.lookup("ServerProxy");
-
-	Replyer r2 = new Replyer("ServerProxy", myAddr);
+	Replyer r2 = new Replyer(serverName, myAddr);
 
 	while (true) {
-
-		r2.receive_transform_and_send_feedback("ServerProxy", transformer);
+		System.out.println("Math server is listening.\n");
+		r2.receive_transform_and_send_feedback(serverName, transformer);
 	}
 }
 catch (Exception e) {
