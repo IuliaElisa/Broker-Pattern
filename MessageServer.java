@@ -13,17 +13,12 @@ import java.util.List;
 public class MessageServer {
 
 
-    public Message get_answer(Message msg, String sender, Class<?> implem) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException, InstantiationException {
+    public Object get_answer(Message msg, String sender, Class<?> implem) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException, InstantiationException {
 
-        System.out.println("receeeee " + msg.data);
         String[] splits = msg.data.split(",");
 
-        if (splits.length > 1 && splits[0].contains("Server")) {
-            String serverName = splits[0];
-            System.out.println("serverName " + serverName);
-
+        if (splits[0].contains("Server")) {
             String methodName = splits[1];
-            System.out.println("method is :" + methodName+":::");
 
             Method[] InstanceMethods  = implem.getDeclaredMethods();
 
@@ -33,32 +28,43 @@ public class MessageServer {
                     Constructor<?> constructor = implem.getDeclaredConstructor();
                     constructor.setAccessible(true);
                     Object instance = constructor.newInstance();
-                    System.out.println("nb params @@@@@@@@@@"+method.getParameterCount());
 
                     if(method.getParameterCount() == 2) {
-                        System.out.println("split[2] :" + splits[2]);
-                        System.out.println("split[3] :" + splits[3]);
-
                         result = method.invoke(instance, splits[2], splits[3]);
                     }
                     if(method.getParameterCount() == 1){
-                        System.out.println("split[222] :"+splits[2]);
                         result = method.invoke(instance, splits[2]);
-
-
                     }
             }
             }
             System.out.println("result is: "+result);
-
             assert result != null;
             Message answer = new Message(sender,result.toString());
             return answer;
         }
 
-        else{
-            System.out.println("Called "+splits[0]);
-        }
+        else
+            if(splits[0].contains("Naming")) {
+                String serverName = splits[1];
+
+                if(splits[2].contains("rebind")){ // operation of rebinding
+                    int portName = Integer.parseInt(splits[3]);
+                    NamingService.rebind(serverName, portName);
+                    String addressInfo = NamingService.lookup(serverName);
+                    return new Message("NamingService", addressInfo.toString());
+                }
+
+                if(splits[2].contains("lookup")){ // operation of lookup
+                    String name = splits[1];
+//                    System.out.println("sv name:" +name + "..");
+                    String addressInfo = NamingService.lookup(name);
+                    return new Message("NamingService", addressInfo.toString());
+                }
+            }
         return msg;
     }
 }
+
+
+
+

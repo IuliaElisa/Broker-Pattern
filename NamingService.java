@@ -1,29 +1,48 @@
 import Commons.Address;
-import Registry.*;
 import RequestReply.ByteStreamTransformer;
 import RequestReply.Replyer;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
+import java.util.Hashtable;
+import java.util.Map;
 
 public class NamingService {
-    public static final int PORT = 8080;
+    public  static Hashtable<String, Entry> hTable = new Hashtable<String, Entry>();
+    private static NamingService _instance = null;
 
-    private NamingService() {}
-    public static Address lookup(String name) {
-        return Registry.instance().get(name);
+    public static NamingService instance()
+    {
+        if (_instance == null)
+            _instance = new NamingService();
+        return _instance;
     }
 
-    public static void rebind(String name, String dest, int port ) {
-        Entry entry = new Entry(dest, port);
-        Registry.instance().put(name, entry);
+    public void put(String theKey, Entry theEntry)
+    {
+        hTable.put(theKey, theEntry);
+    }
+    public Entry get(String aKey) { return hTable.get(aKey);}
+
+    public static String lookup(String name) {
+        String key = null;
+        for (Map.Entry<String, Entry> entry : NamingService.hTable.entrySet()){
+            if (name.equals(entry.getKey())) {
+                key = entry.getKey();
+                break;
+            }
+        }
+        return key+","+ NamingService.instance().get(name).port();
+    }
+
+    public static void rebind(String name, int port) {
+        Entry entry = new Entry("127.0.0.1", port);
+        NamingService.instance().put(name, entry);
     }
     public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException {
 
         new Configuration();
-        ByteStreamTransformer transformer = new ServerTransformer( new MessageServer(), "NamingService, nothing", null);
+        ByteStreamTransformer transformer = new ServerTransformer( new MessageServer(), "0, nothing", null);
 
-        Address myAddr = NamingService.lookup("NamingService");
+        String myAddr = NamingService.lookup("NamingService");
 
         Replyer r = new Replyer("NamingService", myAddr);
 

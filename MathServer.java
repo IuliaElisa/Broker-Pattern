@@ -7,9 +7,9 @@ public class MathServer  {
     public static void main(String[] args) {
 
         try {
-            new Configuration();
+      new Configuration();
             MathServerImpl mathServerImpl = new MathServerImpl();
-            ServerProxy.execute("MathServer", MathServerImpl.class);
+            ServerProxy.execute("MathServer", MathServerImpl.class, 1115);
 
         }
         catch (Exception e) {

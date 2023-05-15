@@ -20,7 +20,7 @@ public class ServerTransformer implements ByteStreamTransformer {
         Marshaller m = new Marshaller();
         msg = m.unmarshal(in);
 
-        Message answer = originalServer.get_answer(msg, sender, implem);
+        Message answer = (Message) originalServer.get_answer(msg, sender, implem);
 
         byte[] bytes = m.marshal(answer);
         return bytes;

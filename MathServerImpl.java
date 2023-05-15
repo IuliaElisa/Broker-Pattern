@@ -23,7 +23,6 @@ public class MathServerImpl implements MathServerOperations{
         if (a instanceof String) {
             try {
                 floatValue = Float.parseFloat((String) a);
-                System.out.println("Value: " + floatValue);
             } catch (NumberFormatException e) {
             }
         }

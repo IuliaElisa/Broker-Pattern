@@ -17,18 +17,20 @@ public class Requestor
 	public Requestor(String theName) { myName = theName; }
 
 
-	public byte[] deliver_and_wait_feedback(Address theDest, byte[] data)
+	public byte[] deliver_and_wait_feedback(String theDest, byte[] data)
 	{
 
 		byte[] buffer = null;
 		int val;
 		try
 		{
-			s = new Socket(theDest.dest(), theDest.port());
+			int port =  Integer.parseInt(theDest.split(",")[1]);
+			s = new Socket("127.0.0.1", port);
 System.out.println("Requestor: Socket"+s);
 			oStr = s.getOutputStream();
 			oStr.write(data);
 			oStr.flush();
+
 			iStr = s.getInputStream();
 
 			val = iStr.read();
@@ -38,7 +40,7 @@ System.out.println("Requestor: Socket"+s);
 			oStr.close();
 			s.close();
 			}
-		catch (IOException e) { 
+		catch (IOException e) {
                        System.out.println("IOException in deliver_and_wait_feedback"); }
 		return buffer;
 	}

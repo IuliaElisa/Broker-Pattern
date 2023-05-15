@@ -3,6 +3,6 @@
 public interface InfoServerOperations
    {
   
-     float get_temp (String city);
-     String get_road_info (int roadID);
+     float get_temp (Object city);
+     String get_road_info (Object roadID);
 }

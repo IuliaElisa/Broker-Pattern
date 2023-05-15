@@ -15,13 +15,13 @@ public class Replyer
 	private InputStream iStr;
 	private OutputStream oStr;
 	private String myName;
-	private Address myAddr;
+	private String myAddr;
 	
-	public Replyer(String theName, Address theAddr) {
+	public Replyer(String theName, String theAddr) {
               myName = theName; 
               myAddr = theAddr;
               try {
-              	srvS = new ServerSocket(myAddr.port());
+              	srvS = new ServerSocket(Integer.parseInt(myAddr.split(",")[1]));
 				System.out.println("Replyer Serversocket:"+srvS);
 			  }
 			  catch (Exception e) {
@@ -42,7 +42,6 @@ System.out.println("Replyer accept: Socket"+s);
 			val = iStr.read();
 			buffer = new byte[val];
 			iStr.read(buffer);
-			System.out.println("in replyer: myName " + myName + "  sender: "+sender);
 			byte[] data = t.transform(buffer, myName, sender);
 
 			oStr = s.getOutputStream();
